@@ -204,7 +204,9 @@ class DbSync:
                                     purposes.
         """
         self.connection_config = connection_config
+        stream_schema_message["key_properties"] =["URI"]
         self.stream_schema_message = stream_schema_message
+
 
         # logger to be used across the class's methods
         self.logger = get_logger('target_postgres')
@@ -314,7 +316,6 @@ class DbSync:
         self.logger.debug("Running query: %s", query)
         with self.open_connection() as connection:
             with connection.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
-                self.logger.info("query and params",query, params)
                 cur.execute(
                     query,
                     params

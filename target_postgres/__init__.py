@@ -108,6 +108,7 @@ def persist_lines(config, lines) -> None:
         t = o['type']
 
         if t == 'RECORD':
+            
             if 'stream' not in o:
                 raise Exception("Line is missing required key 'stream': {}".format(line))
             if o['stream'] not in schemas:
@@ -130,6 +131,8 @@ def persist_lines(config, lines) -> None:
                     raise RecordValidationException(
                         f"Record does not pass schema validation. RECORD: {o['record']}") from ex
 
+            
+            o['record']["URI"] = o['record']["ITEM_IDENTIFIER"]
             primary_key_string = stream_to_sync[stream].record_primary_key_string(o['record'])
             if not primary_key_string:
                 primary_key_string = 'RID-{}'.format(total_row_count[stream])
@@ -211,7 +214,7 @@ def persist_lines(config, lines) -> None:
                 LOGGER.critical("Primary key is set to mandatory but not defined in the [%s] stream", stream)
                 raise Exception("key_properties field is required")
 
-            key_properties[stream] = o['key_properties']
+            key_properties[stream] = ["URI"]
             
             if config.get("custom_column_schema"):
                 o["schema"] = config["custom_column_schema"]
@@ -355,6 +358,7 @@ def flush_records(stream, records_to_load, row_count, db_sync, temp_dir=None):
     csv_fd, csv_file = mkstemp(suffix='.csv', prefix=f'{stream}_', dir=temp_dir)
     with open(csv_fd, 'w+b') as f:
         for record in records_to_load.values():
+            record["URI"] = record["ITEM_IDENTIFIER"]
             csv_line = db_sync.record_to_csv_line(record)
             f.write(bytes(csv_line + '\n', 'UTF-8'))
 

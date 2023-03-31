@@ -14,7 +14,7 @@ plugins:
         start_date: '2018-12-20T18:49:51.090637'
         bucket: 'dis-dev-image-data'
         meltano_state_id: 'target-postgres'
-        tables: [{"delimiter": ",", "key_properties": ["URI"], "search_pattern": ".csv", "search_prefix": "collagia/383ce097-81da-4d3a-8461-3f7eee5da1fd/levite-img-eb3fe248-77b8-498a-bd68-32282eb016c9", "table_name": "383ce097-81da-4d3a-8461-3f7eee5da1fd_levite-img-eb3fe248-77b8-498a-bd68-32282eb016c9"}]
+        tables: [{"delimiter": ",", "key_properties": ["ITEM_IDENTIFIER"], "search_pattern": ".csv", "search_prefix": "collagia/383ce097-81da-4d3a-8461-3f7eee5da1fd/levite-img-eb3fe248-77b8-498a-bd68-32282eb016c9", "table_name": "383ce097-81da-4d3a-8461-3f7eee5da1fd_levite-img-eb3fe248-77b8-498a-bd68-32282eb016c9"}]
       settings:
         - name: aws_access_key_id
           env: TAP_AWS_ACCESS_KEY_ID
